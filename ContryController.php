@@ -30,8 +30,19 @@ class ContryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+   //
+        $datosContry=request()->all();
+
+        $datosContry=request()->except('_token');
+
+        if($request->hasFile('image')){
+
+            $datosContry['text']=$request->image('image')->store('add','public');
+
+        }
+        Contry::insert($datosContry);
+
+        return response()->json($datosContry);
     }
 
     /**
